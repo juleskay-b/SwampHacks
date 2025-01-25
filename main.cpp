@@ -40,9 +40,11 @@ int statsWindow(sf::RenderWindow& window, sf::Font& titleFont, sf::Font& bodyFon
 }
 
 int main() {
-    sf::RenderWindow window;
     int width = 800;
     int height = 600;
+
+    sf::RenderWindow window(sf::VideoMode(width, height), "Player Statistics");
+
 
     player newPlayer;
     newPlayer.printTimePlayed();
