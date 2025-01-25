@@ -4,13 +4,19 @@
 
 #ifndef AUTHENTIFICATION_H
 #define AUTHENTIFICATION_H
+#include <string>
 
 
+class Authentification {
+public:
+    Authentification();
+    void handleLogin();
+    bool isAuthenticated() const;
+    std::string getAccessToken() const;
 
-class authentification {
-
+private:
+    bool authenticated;
+    std::string accessToken;
 };
-
-
 
 #endif //AUTHENTIFICATION_H

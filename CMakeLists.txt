@@ -8,7 +8,7 @@ project(scrap)
 # set(SFML_STATIC_LIBRARIES TRUE)
 
 ## In most cases better set in the CMake cache
-set(SFML_DIR "C:/SFML/lib/cmake/SFML")
+set(SFML_DIR "/opt/homebrew/opt/sfml")
 
 find_package(SFML 2.5.1 COMPONENTS system window graphics audio REQUIRED)
 add_executable(scrap main.cpp
