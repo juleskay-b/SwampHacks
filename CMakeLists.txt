@@ -8,7 +8,7 @@ project(scrap)
 # set(SFML_STATIC_LIBRARIES TRUE)
 
 ## In most cases better set in the CMake cache
-set(SFML_DIR "C:/SFML/lib/cmake/SFML")
+set(SFML_DIR "C:/Users/Hector/Downloads/SFML-2.5.1-windows-gcc-7.3.0-mingw-64-bit/SFML-2.5.1/lib/cmake/SFML")
 
 find_package(SFML 2.5.1 COMPONENTS system window graphics audio REQUIRED)
 add_executable(scrap main.cpp
