@@ -1,4 +1,4 @@
-g# Install script for directory: C:/Users/Hector/Documents/GitHub/SwampHacks
+# Install script for directory: C:/Users/Hector/Documents/GitHub/SwampHacks
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
