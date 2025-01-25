@@ -17,5 +17,7 @@ add_executable(scrap main.cpp
         player.cpp
         player.h
         authentification.cpp
-        authentification.h)
+        authentification.h
+        Math.h
+        Math.cpp)
 target_link_libraries(scrap sfml-system sfml-window sfml-graphics sfml-audio)
