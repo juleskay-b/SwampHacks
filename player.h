@@ -7,13 +7,17 @@
 
 #include <chrono>
 #include <iostream>
+#include <ctime>
 using namespace std;
 
 struct Time {
     chrono::steady_clock::time_point start;
+    chrono::system_clock::time_point startDate;
+    struct tm datetime;
 public:
     Time();
     int getHours();
+    int getDate();
 };
 
 class player {
@@ -21,6 +25,7 @@ class player {
 public:
     player();
     void printTimePlayed();
+    string getDate();
 };
 
 

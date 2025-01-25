@@ -18,7 +18,8 @@ private:
 public:
 
     //Constructor and Parameterized Constructor
-    //Pet();
+    Pet();
+
     Pet(string name, int health);
 
     //Other Functions

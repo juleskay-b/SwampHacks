@@ -4,9 +4,15 @@
 
 #include "pet.h"
 
+Pet::Pet() {
+    name = "Gojo";
+    health = 75;
+    points = 100;
+}
+
 Pet::Pet(string name, int health) {
-    this->name = "Gojo";
-    this->health = 75;
+    this->name = name;
+    this->health = health;
     this->points = 100;
 }
 
