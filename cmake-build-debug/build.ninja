@@ -56,6 +56,27 @@ build CMakeFiles/scrap.dir/main.cpp.obj: CXX_COMPILER__scrap_unscanned_Debug C$:
   OBJECT_DIR = CMakeFiles\scrap.dir
   OBJECT_FILE_DIR = CMakeFiles\scrap.dir
 
+build CMakeFiles/scrap.dir/pet.cpp.obj: CXX_COMPILER__scrap_unscanned_Debug C$:/Users/Jules/CLionProjects/scrap/pet.cpp || cmake_object_order_depends_target_scrap
+  DEP_FILE = CMakeFiles\scrap.dir\pet.cpp.obj.d
+  FLAGS = -g -std=gnu++11 -fdiagnostics-color=always
+  INCLUDES = -isystem C:/SFML/include
+  OBJECT_DIR = CMakeFiles\scrap.dir
+  OBJECT_FILE_DIR = CMakeFiles\scrap.dir
+
+build CMakeFiles/scrap.dir/player.cpp.obj: CXX_COMPILER__scrap_unscanned_Debug C$:/Users/Jules/CLionProjects/scrap/player.cpp || cmake_object_order_depends_target_scrap
+  DEP_FILE = CMakeFiles\scrap.dir\player.cpp.obj.d
+  FLAGS = -g -std=gnu++11 -fdiagnostics-color=always
+  INCLUDES = -isystem C:/SFML/include
+  OBJECT_DIR = CMakeFiles\scrap.dir
+  OBJECT_FILE_DIR = CMakeFiles\scrap.dir
+
+build CMakeFiles/scrap.dir/authentification.cpp.obj: CXX_COMPILER__scrap_unscanned_Debug C$:/Users/Jules/CLionProjects/scrap/authentification.cpp || cmake_object_order_depends_target_scrap
+  DEP_FILE = CMakeFiles\scrap.dir\authentification.cpp.obj.d
+  FLAGS = -g -std=gnu++11 -fdiagnostics-color=always
+  INCLUDES = -isystem C:/SFML/include
+  OBJECT_DIR = CMakeFiles\scrap.dir
+  OBJECT_FILE_DIR = CMakeFiles\scrap.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target scrap
@@ -64,7 +85,7 @@ build CMakeFiles/scrap.dir/main.cpp.obj: CXX_COMPILER__scrap_unscanned_Debug C$:
 #############################################
 # Link the executable scrap.exe
 
-build scrap.exe: CXX_EXECUTABLE_LINKER__scrap_Debug CMakeFiles/scrap.dir/main.cpp.obj | C$:/SFML/lib/libsfml-graphics-d.a C$:/SFML/lib/libsfml-audio-d.a C$:/SFML/lib/libsfml-window-d.a C$:/SFML/lib/libsfml-system-d.a
+build scrap.exe: CXX_EXECUTABLE_LINKER__scrap_Debug CMakeFiles/scrap.dir/main.cpp.obj CMakeFiles/scrap.dir/pet.cpp.obj CMakeFiles/scrap.dir/player.cpp.obj CMakeFiles/scrap.dir/authentification.cpp.obj | C$:/SFML/lib/libsfml-graphics-d.a C$:/SFML/lib/libsfml-audio-d.a C$:/SFML/lib/libsfml-window-d.a C$:/SFML/lib/libsfml-system-d.a
   FLAGS = -g
   LINK_LIBRARIES = C:/SFML/lib/libsfml-graphics-d.a  C:/SFML/lib/libsfml-audio-d.a  C:/SFML/lib/libsfml-window-d.a  C:/SFML/lib/libsfml-system-d.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\scrap.dir
