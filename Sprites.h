@@ -23,14 +23,21 @@ class Sprites {
     sf::Texture medButton;
     sf::Texture hardButton;
     vector<sf::Texture> buttons;
+
+    sf::Texture startBack;
+    sf::Texture gameBack;
+    vector<sf::Texture> backgrounds;
+
 public:
     Sprites();
 
     void loadPetTextures();
     void loadButtons();
+    void loadBackgrounds();
 
     vector<sf::Texture>& getPetTextures();
     vector<sf::Texture>& getButtons();
+    vector<sf::Texture>& getBackgrounds();
 };
 
 

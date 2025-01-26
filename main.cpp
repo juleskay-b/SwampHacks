@@ -1,4 +1,5 @@
 #include <iostream>
+#include <set>
 #include <SFML/Graphics.hpp>
 #include "pet.h"
 #include "player.h"
@@ -27,7 +28,6 @@ void drawDOB(sf::RenderWindow& window, sf::Font& titleFont, sf::Font& bodyFont, 
 void drawInput(sf::RenderWindow& window, sf::Text& userInput, string& userName, float width, float height, sf::Font& font) {
     userInput.setFont(font);
     userInput.setCharacterSize(36);
-    userInput.setStyle(sf::Text::Bold);
     userInput.setFillColor(sf::Color::White);
 
     setText(userInput, (width / 2), (height / 2) - 45);
@@ -36,98 +36,103 @@ void drawInput(sf::RenderWindow& window, sf::Text& userInput, string& userName, 
     window.display();
 }
 
-// int startWindow(sf::RenderWindow& window, sf::Font& titleFont, sf::Font& bodyFont, int& width, int& height, player& player, Pet& pet) {
-//     sf::Text title;
-//     title.setFont(titleFont);
-//     title.setString("- Mathfriend -");
-//     title.setStyle(sf::Text::Bold);
-//     title.setCharacterSize(48);
-//     setText(title, (width/2), 64);
-//
-//     sf::Text welcomeMessage;
-//     welcomeMessage.setFont(bodyFont);
-//     welcomeMessage.setString("Enter a name for your new pet: ");
-//     welcomeMessage.setCharacterSize(30);
-//     setText(welcomeMessage,width/2, 144);
-//
-//
-//
-//
-//
-//     //add functionality to display stats like hunger, points, questions answered right/wrong/retried
-//
-//     window.display();
-//
-//     sf::RectangleShape updateButton(sf::Vector2f(64,64));
-//     updateButton.setPosition(400-32,300-32);
-//
-//
-//
-//     bool lock_click = false;
-//
-//     int hourCounter = 0;
-//
-//     while (window.isOpen()) {
-//         sf::Event event;
-//         while (window.pollEvent(event)) {
-//             if (event.type == sf::Event::Closed) {
-//                 window.clear();
-//                 window.close();
-//                 return 0;
-//             }
-//
-//             if (event.type == sf::Event::MouseButtonPressed) {
-//                 if (event.mouseButton.button == sf::Mouse::Left && lock_click != true) {
-//                     lock_click = true;
-//                 }
-//                 if (event.mouseButton.button == sf::Mouse::Right && lock_click!= true) {
-//                     lock_click = true;
-//                 }
-//             }
-//             if (event.type == sf::Event::MouseButtonReleased) {
-//                 if (event.mouseButton.button == sf::Mouse::Left) {
-//                     sf::Vector2i pos = sf::Mouse::getPosition(window);
-//                     if (pos.x >= (400-32) || pos.x <= (400 + 32)) {
-//                         if (pos.y >= (300-32) || pos.y <= (300+32)) {
-//                             pet.Print();
-//                             player.printStats();
-//                         }
-//                     }
-//                 }
-//             }
-//
-//
-//         }
-//
-//         if (player.getTime().getTotalSeconds() > hourCounter) {
-//             pet.dec();
-//             hourCounter++;
-//             cout << "Dec" << endl;
-//         }
-//
-//         window.clear();  // Clear previous frame
-//         window.draw(welcomeMessage);
-//         window.draw(title);
-//         window.draw(updateButton);
-//         window.display();  // Display the new frame
-//     }
-//
-//     return 0;
-// }
+void drawUserAnswer(sf::RenderWindow& window, sf::Text& userInput, sf::Font& bodyFont, int& width, int& height) {
+    userInput.setFont(bodyFont);
+    userInput.setCharacterSize(20);
 
-int startWindow(sf::RenderWindow& window, sf::Font& titleFont, sf::Font& bodyFont, int& width, int& height, player& player, Pet& pet) {
+    setText(userInput, (width/2), height-100);
+    window.clear();
+    window.draw(userInput);
+    window.display();
+    }
+
+int statsWindow(sf::RenderWindow& window, Sprites& textures, sf::Font& titleFont, sf::Font& bodyFont, int& width, int& height, player& player, Pet& pet) {
+    sf::RectangleShape titleBox(sf::Vector2f(300,340));
+    titleBox.setPosition(150, 20);
+    titleBox.setFillColor(sf::Color::Blue);
+
+    sf::Text title1;
+    title1.setFont(titleFont);
+    title1.setString(player.getName() + "'s Stats");
+    title1.setCharacterSize(36);
+    setText(title1,(width/2),64);
+
+    sf::Text qr;
+    qr.setFont(bodyFont);
+    qr.setString("Questions answered: " + to_string(player.getQR()));
+    qr.setCharacterSize(22);
+    setText(qr, (width/2), 110);
+
+    sf::Text qw;
+    qw.setFont(bodyFont);
+    qw.setString("Questions missed: " + to_string(player.getQW()));
+    qw.setCharacterSize(22);
+    setText(qw, (width/2), 140);
+
+    sf::Text points;
+    points.setFont(bodyFont);
+    points.setString("Total points earned: " + to_string(player.getTotalPoints()));
+    points.setCharacterSize(22);
+    setText(points, (width/2), 170);
+
+    sf::Text title2;
+    title2.setFont(titleFont);
+    title2.setString(pet.getName() + "'s Stats");
+    title2.setCharacterSize(36);
+    setText(title2, (width/2), (height/2));
+
+    sf::Text health;
+    health.setFont(bodyFont);
+    health.setString(pet.getName() + "'s current health: " + to_string(pet.getHealth()));
+    health.setCharacterSize(22);
+    setText(health, (width/2), (height/2)+46);
+
+    sf::Text dob;
+    dob.setFont(bodyFont);
+    dob.setString(pet.getName() + " was born on " + player.getDate());
+    dob.setCharacterSize(22);
+    setText(dob, (width/2), (height/2)+76);
+
+
+    while (window.isOpen()) {
+        sf::Event event;
+        while(window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                window.clear();
+                window.close();
+                return 0;
+            }
+        }
+
+        window.clear();
+        window.draw(titleBox);
+        window.draw(title1);
+        window.draw(qr);
+        window.draw(qw);
+        window.draw(points);
+        window.draw(title2);
+        window.draw(health);
+        window.draw(dob);
+        window.display();
+    }
+
+}
+
+int startWindow(sf::RenderWindow& window, Sprites& textures, sf::Font& titleFont, sf::Font& bodyFont, int& width, int& height, player& player, Pet& pet) {
+    sf::Sprite bg;
+    bg.setTexture(textures.getBackgrounds().at(0));
+
     sf::Text title;
     title.setFont(titleFont);
     title.setString("- Mathfriend -");
-    title.setStyle(sf::Text::Bold);
     title.setCharacterSize(48);
     setText(title, (width/2), 64);
 
     sf::Text welcomeMessage;
     welcomeMessage.setFont(bodyFont);
-    welcomeMessage.setString("Enter a name for your new pet: ");
+    welcomeMessage.setString("Name your new pet:");
     welcomeMessage.setCharacterSize(30);
-    setText(welcomeMessage,width/2, 144);
+    setText(welcomeMessage,width/2, 120);
 
     string input;
 
@@ -167,6 +172,7 @@ int startWindow(sf::RenderWindow& window, sf::Font& titleFont, sf::Font& bodyFon
         setText(petName, width / 2, 216);
 
         window.clear();
+        window.draw(bg);
         window.draw(welcomeMessage);
         window.draw(title);
         window.draw(petName);
@@ -179,26 +185,29 @@ int gameWindow(sf::RenderWindow& window, sf::Font titleFont, sf::Font& bodyFont,
     int sidebar_right = 740;
     int sidebar_top = 64;
 
+    int stats_width = width * .75;
+    int stats_height = height * .75;
+
+    sf::Sprite background;
+    background.setTexture(textures.getBackgrounds().at(1));
+
     sf::Text title;
     title.setFont(titleFont);
     title.setString("- Mathfriend -");
-    title.setStyle(sf::Text::Bold);
     title.setCharacterSize(48);
     setText(title, (width/2), 64);
 
     sf::Text line1;
     line1.setFont(bodyFont);
-    line1.setString("Take care of " + pet.getName() + " by solving math questions!\n"
-                                                      "Try an easy, medium, or hard problem!");
-    line1.setStyle(sf::Text::Italic);
+    line1.setString("Earn points care to for " + pet.getName() + ".\n"
+                                                      "Solve problems to earn points.");
     line1.setCharacterSize(24);
-    setText(line1, (width/2), 144);
+    setText(line1, (width/2), 124);
 
     sf::Sprite petSprite;
     petSprite.setTexture(textures.getPetTextures().at(0));
-    petSprite.setOrigin(width/2, height/2);
-    petSprite.setScale(.5,.5);
-    petSprite.setPosition(width/2,350);
+    petSprite.setPosition(200,200);
+    petSprite.setScale(.4,.4);
 
     sf::Sprite statsButton;
     statsButton.setTexture(textures.getButtons().at(0));
@@ -220,10 +229,29 @@ int gameWindow(sf::RenderWindow& window, sf::Font titleFont, sf::Font& bodyFont,
     hardButton.setPosition(sidebar_left,sidebar_top+372);
     hardButton.setScale(2,2);
 
-    bool question_open = false;
-    bool lock_click = false;
+    sf::Text questionText;
+    questionText.setFont(bodyFont);
+    questionText.setString("Choose question difficulty:");
+    setText(questionText, (width/2), height-125);
 
+    sf::Text userInput;
 
+    string answer;
+
+    bool questionOpen = false;
+    bool lockClick = false;
+
+    Math myMath;
+
+    string mode = "default";
+
+    int hourCounter = 0;
+    int a;
+    int b;
+    int choice;
+    int points;
+
+    player.getTime().resetTime();
 
     while(window.isOpen()) {
         sf::Event event;
@@ -234,13 +262,13 @@ int gameWindow(sf::RenderWindow& window, sf::Font titleFont, sf::Font& bodyFont,
                 return 0;
             }
 
-            if (!question_open){
+            if (!questionOpen){
                 if (event.type == sf::Event::MouseButtonPressed) {
-                    if (event.mouseButton.button == sf::Mouse::Left && lock_click != true) {
-                        lock_click = true;
+                    if (event.mouseButton.button == sf::Mouse::Left && lockClick != true) {
+                        lockClick = true;
                     }
-                    if (event.mouseButton.button == sf::Mouse::Right && lock_click!= true) {
-                        lock_click = true;
+                    if (event.mouseButton.button == sf::Mouse::Right && lockClick!= true) {
+                        lockClick = true;
                     }
                 }
 
@@ -250,43 +278,122 @@ int gameWindow(sf::RenderWindow& window, sf::Font titleFont, sf::Font& bodyFont,
                     if (pos.x < sidebar_right && pos.x > sidebar_left) {
                         if (pos.y > sidebar_top && pos.y < sidebar_top+64) {
                             cout << "Stats" << endl;
+                            sf::RenderWindow smallWindow(sf::VideoMode(stats_width, stats_height), "Mathfriend");
+                            statsWindow(smallWindow, textures, titleFont, bodyFont, stats_width, stats_height, player, pet);
+                            //Open stats menu
                         }
                         if (pos.y > sidebar_top + 124 && pos.y < sidebar_top+188) {
-                            cout << "Easy" << endl;
+                            questionOpen = true;
+                            mode = "easy";
+                            points = 3;
+
+                            choice = rand() % 3;
+                            a = rand() % 100;
+                            b = rand() % 100;
+
+                            switch (choice) {
+                                case 0:
+                                    questionText.setString(to_string(a) + " + " + to_string(b) + " = ?");
+                                break;
+                                case 1:
+                                    questionText.setString(to_string(a) + " - " + to_string(b) + " = ?");
+                                break;
+                                case 2:
+                                    questionText.setString(to_string(a) + " x " + to_string(b) + " = ?");
+                                break;
+                            }
                         }
                         if (pos.y > sidebar_top + 248 & pos.y < sidebar_top + 312) {
+                            mode = "medium";
                             cout << "Medium" << endl;
+                            //Give a medium question - division, multiplication (large) - earn 6 points
                         }
                         if (pos.y > sidebar_top + 372 & pos.y < sidebar_top + 436) {
+                            mode = "hard";
                             cout << "Hard" << endl;
+                            //Give a hard question - area of circle, volume of sphere, etc
                         }
                     }
                 }
+
+                if (questionOpen) {
+                    if (event.type == sf::Event::KeyPressed) {
+                        if (event.key.code == sf::Keyboard::Enter) {
+                            // Process the answer
+                            if ((choice == 0 && stoi(answer) == a + b) ||
+                                (choice == 1 && stoi(answer) == a - b) ||
+                                (choice == 2 && stoi(answer) == a * b)) {
+                                player.answerQuestion(points);
+                                questionOpen = false;
+                                questionText.setString("Correct");
+                                } else {
+                                    points--; // Deduct points for wrong answers
+                                    questionText.setString("Try again");
+                                }
+                            answer.clear();
+                        } else if (event.key.code == sf::Keyboard::Backspace && !answer.empty()) {
+                            answer.pop_back();
+                        }
+                    }
+                    if (event.type == sf::Event::TextEntered) {
+                        if (isdigit(event.text.unicode) && answer.size() < 16) {
+                            answer += static_cast<char>(event.text.unicode);
+                            userInput.setString(answer + "|");
+                        }
+                    }
+                }
+
+                //Should be counting hours - however, due to time and lacking ability, just counting seconds since the program starts running
+                if (player.getTime().getTotalSeconds() > hourCounter) {
+                    pet.dec();
+                    hourCounter++;
+                }
+
+                //Updates the Pet Sprite to reflect the pet's condition/health level
+                if (pet.getHealth() > 66) {
+                    petSprite.setTexture(textures.getPetTextures().at(0));
+                } else if (pet.getHealth() > 33) {
+                    petSprite.setTexture(textures.getPetTextures().at(1));
+                } else if (pet.getHealth() > 0) {
+                    petSprite.setTexture(textures.getPetTextures().at(2));
+                } else if (pet.getHealth() == 0) {
+                    petSprite.setTexture(textures.getPetTextures().at(4));
+                    //Game over
+                }
+
+                if (questionOpen) {
+                    drawUserAnswer(window, userInput, bodyFont, width, height);
+                    userInput.setString(answer + "|");
+                    setText(userInput, width / 2, 216);
+                }
+
+                window.clear();
+                window.draw(background);
+                window.draw(title);
+                window.draw(line1);
+                window.draw(petSprite);
+                window.draw(statsButton);
+                window.draw(easyButton);
+                window.draw(medButton);
+                window.draw(hardButton);
+                window.draw(questionText);
+
+                if (questionOpen) {
+                    setText(userInput, width / 2, height - 125);
+                    window.draw(userInput);
+                }
+
+                window.display();
             }
-
         }
-
-        if (pet.getHealth() )
-
-        window.clear();
-        window.draw(title);
-        window.draw(line1);
-        window.draw(petSprite);
-        window.draw(statsButton);
-        window.draw(easyButton);
-        window.draw(medButton);
-        window.draw(hardButton);
-        window.display();
     }
 }
 
 int main() {
-
-    Math math;
-
     Sprites textures;
     textures.loadButtons();
     textures.loadPetTextures();
+    textures.loadBackgrounds();
 
     player newPlayer;
     newPlayer.printStats();
@@ -297,57 +404,16 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(width, height), "Mathfriend");
 
     sf::Font titleFont;
-    titleFont.loadFromFile("files/happySchool.ttf");
+    titleFont.loadFromFile("files/JdLed5Regular-oRdA.ttf");
 
     sf::Font bodyFont;
-    bodyFont.loadFromFile("files/BebasNeue-Regular.ttf");
+    bodyFont.loadFromFile("files/SummerPixel22Regular-jE0W7.ttf");
 
-    int gameStart = startWindow(window, titleFont, bodyFont, width, height, newPlayer, newPlayer.getPet());
+    int gameStart = startWindow(window, textures, titleFont, bodyFont, width, height, newPlayer, newPlayer.getPet());
 
     if (gameStart == 1) {
         gameWindow(window, titleFont, bodyFont, textures, width, height, newPlayer, newPlayer.getPet());
     }
-
-    int choice = -1;
-
-    while (choice != 0) {
-        cout << "Select a math operation: " << endl;
-        cout << "1. Addition" << endl;
-        cout << "2. Subtraction" << endl;
-        cout << "3. Multiplication" << endl;
-        cout << "4. Print Player Stats" << endl;
-        cout << "5. Print " << newPlayer.getPet().getName() << "'s Stats" << endl;
-        cout << "0. Exit" << endl;
-        cin >> choice;
-        switch (choice) {
-            case 1:
-                cout << math.additionProblem(newPlayer) << " points!" << endl;
-            break;
-            case 2:
-                cout << math.subtractionProblem(newPlayer) << " points!" << endl;
-            break;
-            case 3:
-                cout << math.multiplicationProblem(newPlayer) << " points!" << endl;
-            break;
-            case 4:
-                newPlayer.printStats();
-            break;
-            case 5:
-                newPlayer.getPet().Print();
-            break;
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
 
     return 0;
 }

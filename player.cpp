@@ -53,6 +53,13 @@ int Time::getDate() {
     return formattedDate;
 }
 
+void Time::resetTime() {
+    start = chrono::steady_clock::now();
+    startDate = chrono::system_clock::now();
+    time_t now = chrono::system_clock::to_time_t(startDate);
+    datetime = *localtime(&now);
+}
+
 void player::printStats() {
     cout << "You have been playing for " << startTime.getHours() << " hours, " << startTime.getMinutes() << " minutes, and " << startTime.getSeconds() << " seconds!" << endl;
     cout << "Game started on: " << getDate() << endl;
@@ -73,6 +80,18 @@ string player::getDate() {
     return ss.str();
 }
 
+int player::getQR() {
+    return questionsCorrect;
+}
+
+int player::getQW() {
+    return questionsWrong;
+}
+
+int player::getTotalPoints() {
+    return totalPointsEarned;
+}
+
 void player::answerQuestion(int points) {
     if (points > 0) {
         questionsCorrect++;
@@ -83,10 +102,19 @@ void player::answerQuestion(int points) {
     myPet.inc(points);
 }
 
+void player::rename(string newName) {
+    name = newName;
+}
+
+
 Pet& player::getPet() {
     return myPet;
 }
 
 Time player::getTime() {
     return startTime;
+}
+
+string player::getName() {
+    return name;
 }

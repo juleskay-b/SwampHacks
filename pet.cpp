@@ -54,3 +54,8 @@ void Pet::dec() {
 void Pet::inc(int points) {
     health+=points;
 }
+
+void Pet::resetHealth() {
+    health = 75;
+}
+

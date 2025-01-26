@@ -22,9 +22,11 @@ public:
     int getSeconds();
     int getTotalSeconds();
     int getDate();
+    void resetTime();
 };
 
 class player {
+    string name;
     Time startTime;
     int questionsCorrect;
     int questionsWrong;
@@ -33,6 +35,7 @@ class player {
 
 public:
     player() : myPet("Gojo"){
+        name = "Player";
         startTime = Time();
         questionsCorrect = 0;
         questionsWrong = 0;
@@ -42,9 +45,14 @@ public:
     void printStats();
     Time getTime();
     string getDate();
+    string getName();
+    int getQR();
+    int getQW();
+    int getTotalPoints();
 
     void answerQuestion(int points);
     Pet& getPet();
+    void rename(string newName);
 };
 
 

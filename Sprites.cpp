@@ -37,11 +37,24 @@ void Sprites::loadPetTextures() {
     petTextures.push_back(upsetPet);
 }
 
+void Sprites::loadBackgrounds() {
+    startBack.loadFromFile("files/startBack.png");
+    backgrounds.push_back(startBack);
+
+    gameBack.loadFromFile("files/gameBack.png");
+    backgrounds.push_back(gameBack);
+}
+
+
 vector<sf::Texture> &Sprites::getPetTextures() {
     return petTextures;
 }
 
 vector<sf::Texture> &Sprites::getButtons() {
     return buttons;
+}
+
+vector<sf::Texture> &Sprites::getBackgrounds() {
+    return backgrounds;
 }
 

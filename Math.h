@@ -8,15 +8,12 @@
 #include "pet.h"
 #include "player.h"
 #include <random>
-
+#include <SFML/Graphics.hpp>
 
 class Math {
     int points;
 public:
     Math();
-    int additionProblem(player& player);
-    int subtractionProblem(player& player);
-    int multiplicationProblem(player& player);
 };
 
 

@@ -33,6 +33,7 @@ public:
     void rename(string newName);
     void dec();
     void inc(int points);
+    void resetHealth();
 };
 
 
