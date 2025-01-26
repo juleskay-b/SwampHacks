@@ -15,6 +15,7 @@ public:
     std::string getAccessToken() const;
 
 private:
+    void startHttpListener();
     bool authenticated;
     std::string accessToken;
 };

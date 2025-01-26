@@ -11,11 +11,15 @@ project(scrap)
 set(SFML_DIR "/opt/homebrew/opt/sfml")
 
 find_package(SFML 2.5.1 COMPONENTS system window graphics audio REQUIRED)
+
+include_directories(${CMAKE_SOURCE_DIR})
+
 add_executable(scrap main.cpp
         pet.cpp
         pet.h
         player.cpp
         player.h
         authentification.cpp
-        authentification.h)
+        authentification.h
+        httplib.h)
 target_link_libraries(scrap sfml-system sfml-window sfml-graphics sfml-audio)
