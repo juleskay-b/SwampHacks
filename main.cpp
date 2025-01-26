@@ -39,6 +39,7 @@ void drawInput(sf::RenderWindow& window, sf::Text& userInput, string& userName, 
 void drawUserAnswer(sf::RenderWindow& window, sf::Text& userInput, sf::Font& bodyFont, int& width, int& height) {
     userInput.setFont(bodyFont);
     userInput.setCharacterSize(20);
+    userInput.setFillColor(sf::Color::White);
 
     setText(userInput, (width/2), height-100);
     window.clear();
@@ -316,11 +317,10 @@ int gameWindow(sf::RenderWindow& window, sf::Font titleFont, sf::Font& bodyFont,
                     }
                 }
 
-                if (questionOpen) {
-                    if (event.type == sf::Event::KeyPressed) {
-                        if (event.key.code == sf::Keyboard::Enter) {
-                            // Process the answer
-                            if ((choice == 0 && stoi(answer) == a + b) ||
+                if (event.type == sf::Event::KeyPressed && questionOpen) {
+                    if (event.key.code == sf::Keyboard::Enter) {
+                        // Process the answer
+                        if ((choice == 0 && stoi(answer) == a + b) ||
                                 (choice == 1 && stoi(answer) == a - b) ||
                                 (choice == 2 && stoi(answer) == a * b)) {
                                 player.answerQuestion(points);
@@ -335,7 +335,7 @@ int gameWindow(sf::RenderWindow& window, sf::Font titleFont, sf::Font& bodyFont,
                             answer.pop_back();
                         }
                     }
-                    if (event.type == sf::Event::TextEntered) {
+                    if (event.type == sf::Event::TextEntered && questionOpen) {
                         if (isdigit(event.text.unicode) && answer.size() < 16) {
                             answer += static_cast<char>(event.text.unicode);
                             userInput.setString(answer + "|");
@@ -387,7 +387,6 @@ int gameWindow(sf::RenderWindow& window, sf::Font titleFont, sf::Font& bodyFont,
             }
         }
     }
-}
 
 int main() {
     Sprites textures;
