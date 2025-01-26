@@ -1,0 +1,3 @@
+C:/Users/Jules/CLionProjects/scrap/cmake-build-release/CMakeFiles/scrap.dir
+C:/Users/Jules/CLionProjects/scrap/cmake-build-release/CMakeFiles/edit_cache.dir
+C:/Users/Jules/CLionProjects/scrap/cmake-build-release/CMakeFiles/rebuild_cache.dir
