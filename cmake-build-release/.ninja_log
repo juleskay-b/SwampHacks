@@ -1,0 +1,8 @@
+# ninja log v6
+23	2390	7596044016962235	CMakeFiles/scrap.dir/pet.cpp.obj	76b5b434727e6124
+2393	2738	7596044040662542	CMakeFiles/scrap.dir/authentification.cpp.obj	3dd73073c2387558
+28	3000	7596044017025418	CMakeFiles/scrap.dir/player.cpp.obj	7363acb3ead41f24
+2738	4359	7596044044113080	CMakeFiles/scrap.dir/Math.cpp.obj	62409da736a0319b
+3001	4365	7596044046746676	CMakeFiles/scrap.dir/Sprites.cpp.obj	d253bc60dbb12046
+14	4949	7596044016880458	CMakeFiles/scrap.dir/main.cpp.obj	835cf08042105b68
+4949	5189	7596044066228244	scrap.exe	612f112b1aec4218
