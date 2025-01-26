@@ -3,6 +3,7 @@
 #include "pet.h"
 #include "player.h"
 #include "math.h"
+#include "Sprites.h"
 #include "authentification.h"
 
 using namespace std;
@@ -147,7 +148,6 @@ int startWindow(sf::RenderWindow& window, sf::Font& titleFont, sf::Font& bodyFon
                     if (input.length() > 0) {
                         pet.rename(input);
                         window.clear();
-                        window.close();
                         return 1;
                     }
                 }else if (event.key.code == sf::Keyboard::Backspace) {
@@ -157,7 +157,7 @@ int startWindow(sf::RenderWindow& window, sf::Font& titleFont, sf::Font& bodyFon
                 }
             }
             if (event.type == sf::Event::TextEntered) {
-                if (isalpha(event.text.unicode) && input.size() < 10) {
+                if ((isalpha(event.text.unicode) || isspace(event.text.unicode)) && input.size() < 16) {
                     input += static_cast<char>(event.text.unicode);
                 }
             }
@@ -174,7 +174,11 @@ int startWindow(sf::RenderWindow& window, sf::Font& titleFont, sf::Font& bodyFon
     }
 }
 
-void gameWindow(sf::RenderWindow& window, sf::Font titleFont, sf::Font& bodyFont, int& width, int& height, player& player, Pet& pet) {
+int gameWindow(sf::RenderWindow& window, sf::Font titleFont, sf::Font& bodyFont, Sprites& textures, int& width, int& height, player& player, Pet& pet) {
+    int sidebar_left = 676;
+    int sidebar_right = 740;
+    int sidebar_top = 64;
+
     sf::Text title;
     title.setFont(titleFont);
     title.setString("- Mathfriend -");
@@ -187,16 +191,102 @@ void gameWindow(sf::RenderWindow& window, sf::Font titleFont, sf::Font& bodyFont
     line1.setString("Take care of " + pet.getName() + " by solving math questions!\n"
                                                       "Try an easy, medium, or hard problem!");
     line1.setStyle(sf::Text::Italic);
-    line1.setCharacterSize(30);
+    line1.setCharacterSize(24);
     setText(line1, (width/2), 144);
 
-    sf::RectangleShape updateButton(sf::Vector2f(64,64));
-    updateButton.setPosition(400-32,300-32);
+    sf::Sprite petSprite;
+    petSprite.setTexture(textures.getPetTextures().at(0));
+    petSprite.setOrigin(width/2, height/2);
+    petSprite.setScale(.5,.5);
+    petSprite.setPosition(width/2,350);
+
+    sf::Sprite statsButton;
+    statsButton.setTexture(textures.getButtons().at(0));
+    statsButton.setPosition(sidebar_left,sidebar_top);
+    statsButton.setScale(2,2);
+
+    sf::Sprite easyButton;
+    easyButton.setTexture(textures.getButtons().at(1));
+    easyButton.setPosition(sidebar_left, sidebar_top+124);
+    easyButton.setScale(2,2);
+
+    sf::Sprite medButton;
+    medButton.setTexture(textures.getButtons().at(2));
+    medButton.setPosition(sidebar_left,sidebar_top+248);
+    medButton.setScale(2,2);
+
+    sf::Sprite hardButton;
+    hardButton.setTexture(textures.getButtons().at(3));
+    hardButton.setPosition(sidebar_left,sidebar_top+372);
+    hardButton.setScale(2,2);
+
+    bool question_open = false;
+    bool lock_click = false;
+
+
+
+    while(window.isOpen()) {
+        sf::Event event;
+        while(window.pollEvent(event)) {
+            if(event.type == sf::Event::Closed) {
+                window.clear();
+                window.close();
+                return 0;
+            }
+
+            if (!question_open){
+                if (event.type == sf::Event::MouseButtonPressed) {
+                    if (event.mouseButton.button == sf::Mouse::Left && lock_click != true) {
+                        lock_click = true;
+                    }
+                    if (event.mouseButton.button == sf::Mouse::Right && lock_click!= true) {
+                        lock_click = true;
+                    }
+                }
+
+                if (event.type == sf::Event::MouseButtonReleased) {
+                    sf::Vector2i pos = sf::Mouse::getPosition(window);
+                    //Sidebar buttons
+                    if (pos.x < sidebar_right && pos.x > sidebar_left) {
+                        if (pos.y > sidebar_top && pos.y < sidebar_top+64) {
+                            cout << "Stats" << endl;
+                        }
+                        if (pos.y > sidebar_top + 124 && pos.y < sidebar_top+188) {
+                            cout << "Easy" << endl;
+                        }
+                        if (pos.y > sidebar_top + 248 & pos.y < sidebar_top + 312) {
+                            cout << "Medium" << endl;
+                        }
+                        if (pos.y > sidebar_top + 372 & pos.y < sidebar_top + 436) {
+                            cout << "Hard" << endl;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        if (pet.getHealth() )
+
+        window.clear();
+        window.draw(title);
+        window.draw(line1);
+        window.draw(petSprite);
+        window.draw(statsButton);
+        window.draw(easyButton);
+        window.draw(medButton);
+        window.draw(hardButton);
+        window.display();
+    }
 }
 
 int main() {
 
     Math math;
+
+    Sprites textures;
+    textures.loadButtons();
+    textures.loadPetTextures();
 
     player newPlayer;
     newPlayer.printStats();
@@ -215,7 +305,7 @@ int main() {
     int gameStart = startWindow(window, titleFont, bodyFont, width, height, newPlayer, newPlayer.getPet());
 
     if (gameStart == 1) {
-        gameWindow(window, titleFont, bodyFont, width, height, newPlayer, newPlayer.getPet());
+        gameWindow(window, titleFont, bodyFont, textures, width, height, newPlayer, newPlayer.getPet());
     }
 
     int choice = -1;
