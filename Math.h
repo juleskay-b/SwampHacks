@@ -6,19 +6,17 @@
 #define SCRAP_MATH_H
 
 #include "pet.h"
+#include "player.h"
 #include <random>
 
 
 class Math {
-private:
-    int num1;
-    int num2;
-    string operation;
-    int result;
+    int points;
 public:
     Math();
-    void RandomOperation() noexcept;
-
+    int additionProblem(player& player);
+    int subtractionProblem(player& player);
+    int multiplicationProblem(player& player);
 };
 
 

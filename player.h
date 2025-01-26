@@ -8,6 +8,7 @@
 #include <chrono>
 #include <iostream>
 #include <ctime>
+#include "pet.h"
 using namespace std;
 
 struct Time {
@@ -17,15 +18,33 @@ struct Time {
 public:
     Time();
     int getHours();
+    int getMinutes();
+    int getSeconds();
+    int getTotalSeconds();
     int getDate();
 };
 
 class player {
     Time startTime;
+    int questionsCorrect;
+    int questionsWrong;
+    int totalPointsEarned;
+    Pet myPet;
+
 public:
-    player();
-    void printTimePlayed();
+    player() : myPet("Gojo"){
+        startTime = Time();
+        questionsCorrect = 0;
+        questionsWrong = 0;
+        totalPointsEarned = 0;
+    };
+
+    void printStats();
+    Time getTime();
     string getDate();
+
+    void answerQuestion(int points);
+    Pet& getPet();
 };
 
 

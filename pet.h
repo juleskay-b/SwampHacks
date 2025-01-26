@@ -11,7 +11,6 @@ using namespace std;
 
 
 class Pet {
-private:
     string name;
     int health = 75;
     int points;
@@ -20,7 +19,7 @@ public:
     //Constructor and Parameterized Constructor
     Pet();
 
-    Pet(string name, int health);
+    Pet(string name);
 
     //Other Functions
     string Status(int health);
@@ -30,6 +29,10 @@ public:
     string getName();
     int getHealth();
     int getStatus();
+
+    void rename(string newName);
+    void dec();
+    void inc(int points);
 };
 
 

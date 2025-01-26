@@ -19,5 +19,7 @@ add_executable(scrap main.cpp
         authentification.cpp
         authentification.h
         Math.h
-        Math.cpp)
+        Math.cpp
+        Sprites.cpp
+        Sprites.h)
 target_link_libraries(scrap sfml-system sfml-window sfml-graphics sfml-audio)
