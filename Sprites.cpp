@@ -43,6 +43,9 @@ void Sprites::loadBackgrounds() {
 
     gameBack.loadFromFile("files/gameBack.png");
     backgrounds.push_back(gameBack);
+
+    statsBack.loadFromFile("files/statsBack.png");
+    backgrounds.push_back(statsBack);
 }
 
 

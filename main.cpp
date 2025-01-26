@@ -41,16 +41,14 @@ void drawUserAnswer(sf::RenderWindow& window, sf::Text& userInput, sf::Font& bod
     userInput.setCharacterSize(20);
     userInput.setFillColor(sf::Color::White);
 
-    setText(userInput, (width/2), height-100);
+    setText(userInput, (width/2), height-50);
     window.clear();
     window.draw(userInput);
-    window.display();
     }
 
 int statsWindow(sf::RenderWindow& window, Sprites& textures, sf::Font& titleFont, sf::Font& bodyFont, int& width, int& height, player& player, Pet& pet) {
-    sf::RectangleShape titleBox(sf::Vector2f(300,340));
-    titleBox.setPosition(150, 20);
-    titleBox.setFillColor(sf::Color::Blue);
+    sf::Sprite background;
+    background.setTexture(textures.getBackgrounds().at(2));
 
     sf::Text title1;
     title1.setFont(titleFont);
@@ -106,7 +104,7 @@ int statsWindow(sf::RenderWindow& window, Sprites& textures, sf::Font& titleFont
         }
 
         window.clear();
-        window.draw(titleBox);
+        window.draw(background);
         window.draw(title1);
         window.draw(qr);
         window.draw(qw);
@@ -182,7 +180,7 @@ int startWindow(sf::RenderWindow& window, Sprites& textures, sf::Font& titleFont
 }
 
 int gameWindow(sf::RenderWindow& window, sf::Font titleFont, sf::Font& bodyFont, Sprites& textures, int& width, int& height, player& player, Pet& pet) {
-    int sidebar_left = 676;
+    int sidebar_left = 670;
     int sidebar_right = 740;
     int sidebar_top = 64;
 
@@ -213,22 +211,18 @@ int gameWindow(sf::RenderWindow& window, sf::Font titleFont, sf::Font& bodyFont,
     sf::Sprite statsButton;
     statsButton.setTexture(textures.getButtons().at(0));
     statsButton.setPosition(sidebar_left,sidebar_top);
-    statsButton.setScale(2,2);
 
     sf::Sprite easyButton;
     easyButton.setTexture(textures.getButtons().at(1));
     easyButton.setPosition(sidebar_left, sidebar_top+124);
-    easyButton.setScale(2,2);
 
     sf::Sprite medButton;
     medButton.setTexture(textures.getButtons().at(2));
     medButton.setPosition(sidebar_left,sidebar_top+248);
-    medButton.setScale(2,2);
 
     sf::Sprite hardButton;
     hardButton.setTexture(textures.getButtons().at(3));
     hardButton.setPosition(sidebar_left,sidebar_top+372);
-    hardButton.setScale(2,2);
 
     sf::Text questionText;
     questionText.setFont(bodyFont);
@@ -263,7 +257,7 @@ int gameWindow(sf::RenderWindow& window, sf::Font titleFont, sf::Font& bodyFont,
                 return 0;
             }
 
-            if (!questionOpen){
+            if (!questionOpen) {
                 if (event.type == sf::Event::MouseButtonPressed) {
                     if (event.mouseButton.button == sf::Mouse::Left && lockClick != true) {
                         lockClick = true;
@@ -284,13 +278,21 @@ int gameWindow(sf::RenderWindow& window, sf::Font titleFont, sf::Font& bodyFont,
                             //Open stats menu
                         }
                         if (pos.y > sidebar_top + 124 && pos.y < sidebar_top+188) {
+                            questionText.setFillColor(sf::Color::White);
                             questionOpen = true;
                             mode = "easy";
                             points = 3;
 
+                            a=1;
+                            b=1;
+
                             choice = rand() % 3;
-                            a = rand() % 100;
-                            b = rand() % 100;
+
+                            while (a <= b || a == 0 || b == 0) {
+                                a = rand() % 100;
+                                b = rand() % 100;
+
+                            }
 
                             switch (choice) {
                                 case 0:
@@ -300,48 +302,55 @@ int gameWindow(sf::RenderWindow& window, sf::Font titleFont, sf::Font& bodyFont,
                                     questionText.setString(to_string(a) + " - " + to_string(b) + " = ?");
                                 break;
                                 case 2:
-                                    questionText.setString(to_string(a) + " x " + to_string(b) + " = ?");
+                                    a = a%10;
+                                b=b%10;
+                                questionText.setString(to_string(a) + " x " + to_string(b) + " = ?");
                                 break;
                             }
                         }
                         if (pos.y > sidebar_top + 248 & pos.y < sidebar_top + 312) {
-                            mode = "medium";
-                            cout << "Medium" << endl;
-                            //Give a medium question - division, multiplication (large) - earn 6 points
                         }
                         if (pos.y > sidebar_top + 372 & pos.y < sidebar_top + 436) {
-                            mode = "hard";
-                            cout << "Hard" << endl;
-                            //Give a hard question - area of circle, volume of sphere, etc
                         }
                     }
                 }
+            }
 
-                if (event.type == sf::Event::KeyPressed && questionOpen) {
-                    if (event.key.code == sf::Keyboard::Enter) {
-                        // Process the answer
+            if (event.type == sf::Event::KeyPressed && questionOpen) {
+                if (event.key.code == sf::Keyboard::Enter) {
+                    try {
                         if ((choice == 0 && stoi(answer) == a + b) ||
-                                (choice == 1 && stoi(answer) == a - b) ||
-                                (choice == 2 && stoi(answer) == a * b)) {
-                                player.answerQuestion(points);
-                                questionOpen = false;
-                                questionText.setString("Correct");
-                                } else {
-                                    points--; // Deduct points for wrong answers
-                                    questionText.setString("Try again");
-                                }
-                            answer.clear();
-                        } else if (event.key.code == sf::Keyboard::Backspace && !answer.empty()) {
-                            answer.pop_back();
+                            (choice == 1 && stoi(answer) == a - b) ||
+                            (choice == 2 && stoi(answer) == a * b)) {
+                            player.answerQuestion(points);
+                            questionText.setFillColor(sf::Color::White);
+                            questionText.setString("Correct! +" + to_string(points) + " points");
+                            questionOpen = false; // Close the question
+                            } else {
+                                questionText.setFillColor(sf::Color::Red);
+                                points--; // Penalize for incorrect answers
+                            }
+                        if (points == 0) {
+                            questionText.setString("Out of tries.");
+                            questionOpen=false;
+                            player.answerQuestion(points);
                         }
+                    } catch (...) {
+
                     }
-                    if (event.type == sf::Event::TextEntered && questionOpen) {
-                        if (isdigit(event.text.unicode) && answer.size() < 16) {
-                            answer += static_cast<char>(event.text.unicode);
-                            userInput.setString(answer + "|");
-                        }
-                    }
+                    answer.clear(); // Reset the input string
+                } else if (event.key.code == sf::Keyboard::Backspace && !answer.empty()) {
+                    answer.pop_back(); // Remove the last character
                 }
+            }
+            if (event.type == sf::Event::TextEntered && questionOpen) {
+                if (isdigit(event.text.unicode) && answer.size() < 16) {
+                    answer += static_cast<char>(event.text.unicode);
+                }
+                userInput.setString(answer + "|");
+            }
+            }
+
 
                 //Should be counting hours - however, due to time and lacking ability, just counting seconds since the program starts running
                 if (player.getTime().getTotalSeconds() > hourCounter) {
@@ -364,7 +373,7 @@ int gameWindow(sf::RenderWindow& window, sf::Font titleFont, sf::Font& bodyFont,
                 if (questionOpen) {
                     drawUserAnswer(window, userInput, bodyFont, width, height);
                     userInput.setString(answer + "|");
-                    setText(userInput, width / 2, 216);
+                    setText(userInput, width / 2, height-75);
                 }
 
                 window.clear();
@@ -379,14 +388,14 @@ int gameWindow(sf::RenderWindow& window, sf::Font titleFont, sf::Font& bodyFont,
                 window.draw(questionText);
 
                 if (questionOpen) {
-                    setText(userInput, width / 2, height - 125);
+                    setText(userInput, width / 2, height - 75);
                     window.draw(userInput);
                 }
 
                 window.display();
             }
         }
-    }
+
 
 int main() {
     Sprites textures;

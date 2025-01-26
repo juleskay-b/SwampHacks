@@ -26,6 +26,7 @@ class Sprites {
 
     sf::Texture startBack;
     sf::Texture gameBack;
+    sf::Texture statsBack;
     vector<sf::Texture> backgrounds;
 
 public:
